@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head style="background-color:#050505;">
+  <title>PS4 5.50 Kernel Exploit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin: -75px 0 0 -75px;
+
+      border: 10px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 10px solid #044595;
+      border-left: 10px solid #044595;
+      width: 120px;
+      height: 120px;
+
+      -webkit-animation: spin 1s linear infinite;
+    }
+
+    .info {
+      overflow: hidden;
+      position: fixed;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      color: white;
+      font-size: 45px;
+      font-family: sans-serif;
+
+      transform: translate(-50%, -50%);
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body style="margin:0;background-color:#050505;">
+  <script src="./rop.js"></script>
+  <script src="./userland.js"></script>
+  <script>
+    window.didload = 0;
+    window.didpost = 0;
+
+    window.onload = function () {
+      window.didload = 1;
+      if (window.didpost == 1) {
+        setTimeout(stage2, 1500);
+      }
+    }
+    function nextStage() {
+      window.didpost = 1;
+      if (window.didload == 1) {
+        setTimeout(stage2, 1500);
+      }
+    }
+    
+    function allset() {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("awaiting").style.display = "none";
+      document.getElementById("allset").style.display = "block";
+    }
+
+    function awaitpl() {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("awaiting").style.display = "block";
+    }
+
+  </script>
+
+  <div id="loader" class="loader"></div>
+
+  <div id="awaiting" class="info" style="display:none;">
+    Awaiting Payload...
+  </div>
+
+  <div id="allset" class="info" style="display:none;">
+    You're all set!
+  </div>
+
+  <div id="fail" class="info" style="display:none;">
+    Something went wrong :(
+  </div>
+
+  <div id="badfw" class="info" style="display:none;">
+    Only firmware 5.50 is supported!
+  </div>
+  <script src="./expl.js"></script>
+</body>
+</html>
